@@ -22,6 +22,7 @@ namespace Fisharebest\Webtrees;
 use Fisharebest\Webtrees\Contracts\CacheFactoryInterface;
 use Fisharebest\Webtrees\Contracts\FamilyFactoryInterface;
 use Fisharebest\Webtrees\Contracts\FilesystemFactoryInterface;
+use Fisharebest\Webtrees\Contracts\GedcomElementFactoryInterface;
 use Fisharebest\Webtrees\Contracts\GedcomRecordFactoryInterface;
 use Fisharebest\Webtrees\Contracts\HeaderFactoryInterface;
 use Fisharebest\Webtrees\Contracts\ImageFactoryInterface;
@@ -48,6 +49,9 @@ class Factory
 
     /** @var FilesystemFactoryInterface */
     private static $filesystem_factory;
+
+    /** @var GedcomElementFactoryInterface */
+    private static $gedcom_element_factory;
 
     /** @var GedcomRecordFactoryInterface */
     private static $gedcom_record_factory;
@@ -131,6 +135,22 @@ class Factory
         }
 
         return self::$filesystem_factory;
+    }
+
+    /**
+     * Store or retrieve a factory object.
+     *
+     * @param GedcomElementFactoryInterface|null $factory
+     *
+     * @return GedcomElementFactoryInterface
+     */
+    public static function gedcomElement(GedcomElementFactoryInterface $factory = null): GedcomElementFactoryInterface
+    {
+        if ($factory instanceof GedcomElementFactoryInterface) {
+            self::$gedcom_element_factory = $factory;
+        }
+
+        return self::$gedcom_element_factory;
     }
 
     /**

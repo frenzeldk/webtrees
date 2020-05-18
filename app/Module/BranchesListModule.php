@@ -25,7 +25,7 @@ use Fisharebest\Webtrees\Auth;
 use Fisharebest\Webtrees\Contracts\UserInterface;
 use Fisharebest\Webtrees\Factory;
 use Fisharebest\Webtrees\Family;
-use Fisharebest\Webtrees\GedcomCode\GedcomCodePedi;
+use Fisharebest\Webtrees\GedcomElements\PedigreeLinkageType;
 use Fisharebest\Webtrees\GedcomRecord;
 use Fisharebest\Webtrees\I18N;
 use Fisharebest\Webtrees\Individual;
@@ -412,11 +412,13 @@ class BranchesListModule extends AbstractModule implements ModuleListInterface, 
             foreach ($individual->facts(['FAMC']) as $fact) {
                 if ($fact->target() === $parents) {
                     $pedi = $fact->attribute('PEDI');
+                    
+                    if ($pedi !== '' && $pedi !== 'birth') {
+                        $element   = Factory::gedcomElement()->make('INDI:FAMC:PEDI');
+                        $indi_html = '<span class="red">' . $element->value($pedi, $tree) . '</span> ' . $indi_html;
+                    }
                     break;
                 }
-            }
-            if ($pedi !== '' && $pedi !== 'birth') {
-                $indi_html = '<span class="red">' . GedcomCodePedi::getValue($pedi, $individual) . '</span> ' . $indi_html;
             }
         }
 

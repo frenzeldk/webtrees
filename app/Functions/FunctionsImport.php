@@ -286,6 +286,7 @@ class FunctionsImport
             // check for a _UID, if the record doesn't have one, add one
             if ($tree->getPreference('GENERATE_UIDS') === '1' && !str_contains($gedrec, "\n1 _UID ")) {
                 $gedrec .= "\n1 _UID " . GedcomTag::createUid();
+                $gedrec .= "\n1 _UID " . Factory::gedcomElement()->make($type . ':_UID')->default($tree);
             }
         } elseif (preg_match('/0 (HEAD|TRLR|_PLAC |_PLAC_DEFN)/', $gedrec, $match)) {
             $type = $match[1];
